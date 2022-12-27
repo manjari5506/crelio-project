@@ -18,11 +18,11 @@ class StudentViewSet(viewsets.ModelViewSet):
 @api_view(['POST'])
 def studentLogin(request):
     request_data = json.load(request)
-    email=request_data.get('email')
-    password=request_data.get('password')
+    email=request_data.get('Email')
+    password=request_data.get('Password')
     user = Student.objects.filter(email=email,password=password,active=True)
     content = StudentSerializer(user, many=True).data
-    if content!=[]:
+    if content != [] :
          return Response({"email":email,"password":password},status=200)
     else:
         return Response({"message":"Invald credentials"},status=400)
@@ -30,8 +30,8 @@ def studentLogin(request):
 @api_view(['Post'])
 def loggedinStudent(request):
     request_data = json.load(request)
-    email=request_data.get('email')
-    password=request_data.get('password')
+    email=request_data.get('Email')
+    password=request_data.get('Password')
     user = Student.objects.filter(email=email,password=password,active=True)
     content = StudentSerializer(user, many=True).data
     if content!=[]:

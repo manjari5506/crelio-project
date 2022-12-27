@@ -14,23 +14,23 @@ class StaffViewSet(viewsets.ModelViewSet):
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
 
-@api_view(['Post'])
+@api_view(['POST'])
 def staffLogin(request):
     request_data = json.load(request)
     email=request_data.get('email')
     password=request_data.get('password')
-    user = Staff.objects.filter(email=email,password=password,active=True)
+    user = Staff.objects.filter(email=email, password=password, active=True)
     content = StaffSerializer(user, many=True).data
     if content!=[]:
          return Response({"email":email,"password":password},status=200)
     else:
         return Response({"message":"Invald credentials"},status=400)
 
-@api_view(['Post'])
+@api_view(['POST'])
 def loggedinStaff(request):
     request_data = json.load(request)
-    email=request_data.get('email')
-    password=request_data.get('password')
+    email=request_data.get('Email')
+    password=request_data.get('Password')
     user = Staff.objects.filter(email=email,password=password,active=True)
     content = StaffSerializer(user, many=True).data
     if content!=[]:

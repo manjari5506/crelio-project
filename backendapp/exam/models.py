@@ -20,7 +20,7 @@ class Exam(models.Model):
     Course=models.ForeignKey(Course,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.Test_name
+        return self.Exam_name
 
 class Question(models.Model):
     Question_id=models.AutoField(primary_key=True)

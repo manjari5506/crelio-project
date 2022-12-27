@@ -32,16 +32,15 @@ class ScoreViewSet(viewsets.ModelViewSet):
     
 
 
-@api_view(['Get', 'Post'])
+@api_view(['Get','Post'])
 def getCourses(request):
     request_data = request.data
     author=request_data.get('Author')
+    #print('----',request_data)
     course = Course.objects.filter(Author=author)
-    if not course:
-        return Response({'data': []}, status=400)
-    content = CourseSerializer(course, many=True)
+    content = CourseSerializer(course, many=True).data
     if content!=[]:
-         return Response({"data":content.data},status=200)
+        return Response({"data":content},status=200)
     else:
         return Response({"message":"Invald request"},status=400)
 
@@ -58,10 +57,10 @@ def getassigned(request):
     else:
         return Response({"message":"Invalid request"},status=400)
 
-@api_view(['Get','Post'])
+@api_view(['Post'])
 def getassignedexam(request):
     request_data=json.load(request)
-    course=request_data.get('Course')
+    course=request_data.get('course')
     exams=Exam.objects.filter(Course=course)
     content=ExamSerializer(exams, many=True).data
     if content!=[]:
@@ -69,10 +68,11 @@ def getassignedexam(request):
     else:
         return Response({"message":"Invalid request"},status=400)
 
-@api_view(['Get','Post'])
+@api_view(['Post'])
 def getQuestions(request):
     request_data=json.load(request)
-    exams=Question.objects.filter(Exam=course)
+    print(request_data)
+    exams=Question.objects.filter(Exam=Course)
     content=QuestionSerializer(exams, many=True).data
     if content!=[]:
         return Response({"data":content},status=200)
