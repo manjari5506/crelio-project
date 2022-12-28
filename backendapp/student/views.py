@@ -15,7 +15,7 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
-@api_view(['POST'])
+@api_view(['Get','POST'])
 def studentLogin(request):
     request_data = json.load(request)
     email=request_data.get('Email')

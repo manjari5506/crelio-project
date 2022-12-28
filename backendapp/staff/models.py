@@ -10,4 +10,4 @@ class Staff(models.Model):
     password=models.CharField(null=False,blank=False,max_length=20)
 
     def __str__(self):
-        return self.Name
+        return self.name

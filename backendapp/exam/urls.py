@@ -18,6 +18,7 @@ router.register(r'score',ScoreViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('getcourses/', views.getCourses),
+   # path('getcourses/<int:id>/', views.getCourses),
     path('getsubscribed/', views.getassigned),
     path('getassignedexam/', views.getassignedexam),
     path('getquestions/', views.getQuestions),

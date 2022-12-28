@@ -32,8 +32,20 @@ class ScoreViewSet(viewsets.ModelViewSet):
     
 
 
-@api_view(['Get','Post'])
-def getCourses(request):
+@api_view(['Post', 'Patch'])
+def getCourses(request, id=None):
+    if request.method == 'PATCH':
+        id = request.data.get('id')
+        try:
+            current_course = Course.objects.get(Course_id=id)
+            serializer = CourseSerializer(current_course, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response('ok')
+            return Response({'message': 'bad request'})
+        except Course.DoesNotExist:
+            return Response({'message': 'invalid id'})
+        
     request_data = request.data
     author=request_data.get('Author')
     #print('----',request_data)
@@ -46,10 +58,11 @@ def getCourses(request):
 
 
 
-@api_view(['Get','Post'])
+@api_view(['Post'])
 def getassigned(request):
     request_data=json.load(request)
     student=request_data.get('Student')
+    #course = request_data.get('Course')
     subscribed=Assigned.objects.filter(Student=student)
     content=SubsSerializer(subscribed, many=True).data
     if content!=[]:
@@ -60,7 +73,7 @@ def getassigned(request):
 @api_view(['Post'])
 def getassignedexam(request):
     request_data=json.load(request)
-    course=request_data.get('course')
+    course=request_data.get('Course')
     exams=Exam.objects.filter(Course=course)
     content=ExamSerializer(exams, many=True).data
     if content!=[]:
@@ -71,8 +84,9 @@ def getassignedexam(request):
 @api_view(['Post'])
 def getQuestions(request):
     request_data=json.load(request)
-    print(request_data)
-    exams=Question.objects.filter(Exam=Course)
+    exam=request_data.get('Exam_id')
+    #print(request_data)
+    exams=Question.objects.filter(Exam=exam)
     content=QuestionSerializer(exams, many=True).data
     if content!=[]:
         return Response({"data":content},status=200)

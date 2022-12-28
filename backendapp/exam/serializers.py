@@ -35,6 +35,7 @@ class SubsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Assigned
-        fields=['Exam']
+        #fields=['Exam']
+        fields="__all__"
 
 
