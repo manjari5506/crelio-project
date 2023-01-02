@@ -45,7 +45,7 @@ class Assigned(models.Model):
 
 class Score(models.Model):
     Score_id=models.AutoField(primary_key=True)
-    Score=models.IntegerField(blank=False,unique=True)
+    Score=models.IntegerField(blank=False)
     Student_id=models.ForeignKey(Student,on_delete=models.CASCADE,blank=False)
     Exam_id=models.ForeignKey(Exam,on_delete=models.CASCADE,blank=False)
 
